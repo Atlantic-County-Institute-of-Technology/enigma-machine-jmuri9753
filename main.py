@@ -5,24 +5,31 @@
 import os
 import inquirer3
 
-UPPER_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+UPPER_CASE = 65
+LOWER_CASE = 97
+ALPHABET_SIZE = 26
 
+# def get_key_index(key):
+#     for i in key:
+#         if i.isalpha():
+#             charset = (UPPER_CASE if i.isupper() else LOWER_CASE)
+#             key_index = ord(i) - charset
+#     return key_index
 
 
 def vigenere_cipher(phrase, key):
     encoded_phrase = ''
     for letter in phrase:
         if letter.isalpha():
-            if letter.isupper():
-                original_index = UPPER_ALPHABET.index(letter)
-                key_index = phrase.index(letter)
+            charset = (UPPER_CASE if letter.isupper() else LOWER_CASE)
+            for i in key:
+                key_index = (ord(i) - charset)
                 print(key_index)
-                key_letter = key[key_index]
-                print(key_letter)
-                # index_key = UPPER_ALPHABET.index(key_letter)
 
-            if letter.islower():
-                letter.upper()
+            
+            encoded_phrase += chr((ord(letter) - charset + key_index) % ALPHABET_SIZE + charset)
+            print(encoded_phrase)
+            
         else:
             encoded_phrase += letter
 
