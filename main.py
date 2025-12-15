@@ -34,11 +34,16 @@ def vigenere_cipher(phrase, key_index):
     encoded_phrase = ''
     for letter in range(len(phrase)):
         if phrase[letter].isalpha():
+            print(phrase[letter].lower())
+            phrase_lower = phrase[letter].lower()
             charset = (UPPER_CASE if phrase[letter].isupper() else LOWER_CASE)
             
             # print((ord(phrase[letter]) - charset + (ord(key_index[letter])) - charset) % ALPHABET_SIZE + charset)
-            
-            encoded_phrase += chr((ord(phrase[letter]) - charset + (ord(key_index[letter])) - charset) % ALPHABET_SIZE + charset)
+            print(f"Ordinal of phrase letter: {ord(phrase_lower)}\n"
+                  f"Ordinal value of key letter: {ord(key_index[letter])}\n"
+                  f"Shift value: {ord(key_index[letter]) - charset}\n"
+                  f"Result value: {(ord(phrase[letter]) - charset + (ord(key_index[letter])) - charset) % (ALPHABET_SIZE + charset)}")
+            encoded_phrase += chr((ord(phrase_lower) - charset + (ord(key_index[letter])) - charset) % (ALPHABET_SIZE + charset))
             
         else:
             encoded_phrase += letter
