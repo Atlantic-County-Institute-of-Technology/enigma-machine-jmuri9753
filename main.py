@@ -19,15 +19,19 @@ def get_key_index(key,phrase):
                 list_indexes.append(i)
         return list_indexes
 
+    # elif len(phrase) > len(key):
+    #     print(key)
+    #     i = 0
+    #     while i < len(phrase) - len(key):  
+    #         i += 1
+
     else:
-        for i in range(len(phrase) - len(key)):
-            print(i)
-            if phrase[i].isalpha():
-                print("yes")
-            else:
-                print("no")
-            key_add = (key[i % len(key)])
-            key += key_add
+        print(key)
+        for j in range(len(key)):
+            for i in range(len(phrase)):
+                print(key[j % len(key)])
+            
+
         return "".join(key)
 
 key_index = get_key_index(key,phrase)
@@ -68,10 +72,10 @@ def vigenere_cipher_decode(encoded_phrase, key_index):
 
 def main():
     get_key_index(phrase, key)
-    encoded_phrase = vigenere_cipher_encode(phrase,key_index)
-    decoded_phrase = vigenere_cipher_decode(encoded_phrase, key_index)
-    print(encoded_phrase)
-    print(decoded_phrase)
+    # encoded_phrase = vigenere_cipher_encode(phrase,key_index)
+    # decoded_phrase = vigenere_cipher_decode(encoded_phrase, key_index)
+    # print(encoded_phrase)
+    # print(decoded_phrase)
 
 
 if __name__ == "__main__":
