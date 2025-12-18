@@ -1,6 +1,6 @@
 # Jayden Murillo
 # Made: 12.9.25
-# Last Edit: 12.9.25
+# Last Edit: 12.18.25
 
 import os
 # import inquirer3
@@ -10,36 +10,35 @@ LOWER_CASE = 97
 ALPHABET_SIZE = 26
 phrase = str(input("[-] Please Input A Phrase: "))
 key = "banana"
+real_key = ""
 
-def get_key_index(key,phrase):
+def get_key_index(phrase,key, real_key):
     if range(len(key)) == range(len(phrase)):
         list_indexes = []
-        for i in key:
-            if i.isalpha():
-                list_indexes.append(i)
+        for i in range(len(key)):
+            if key[i].isalpha():
+                list_indexes.append(key[i])
+                print(list_indexes)
         return list_indexes
 
-    # elif len(phrase) > len(key):
-    #     print(key)
-    #     i = 0
-    #     while i < len(phrase) - len(key):  
-    #         i += 1
-
     else:
-        print(key)
-        for j in range(len(key)):
-            for i in range(len(phrase)):
-                print(key[j % len(key)])
+        j = 0
+        for i in range(len(phrase)):
+            if phrase[i].isalpha():
+                real_key += key[j % len(key)]
+                j+=1
+            else: 
+                j+=0
+                real_key += " "
             
+        return "".join(real_key)
 
-        return "".join(key)
-
-key_index = get_key_index(key,phrase)
+key_index = get_key_index(phrase,key, real_key)
+print(key_index)
 
 def vigenere_cipher_encode(phrase, key_index):
     encoded_phrase = ''
     for letter in range(len(phrase)):
-        print(f"{phrase[letter], key_index[letter]} \n")
         if phrase[letter].isalpha():
             phrase_lower = phrase[letter].lower()
             charset = (UPPER_CASE if phrase_lower.isupper() else LOWER_CASE)
@@ -71,11 +70,10 @@ def vigenere_cipher_decode(encoded_phrase, key_index):
     return decoded_phrase
 
 def main():
-    get_key_index(phrase, key)
-    # encoded_phrase = vigenere_cipher_encode(phrase,key_index)
-    # decoded_phrase = vigenere_cipher_decode(encoded_phrase, key_index)
-    # print(encoded_phrase)
-    # print(decoded_phrase)
+    encoded_phrase = vigenere_cipher_encode(phrase,key_index)
+    decoded_phrase = vigenere_cipher_decode(encoded_phrase, key_index)
+    print(encoded_phrase)
+    print(decoded_phrase)
 
 
 if __name__ == "__main__":
