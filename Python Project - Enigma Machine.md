@@ -11,6 +11,7 @@ Have a "Main Menu" which offers the following options:
 
 ---
 ## Submission Guidelines
+
 Please submit your file by pushing all changes to your assigned git repository. Your submission should include the following:
 - Your main Python file(s). For this project your submission should be labeled *Lastname_apples.py*
 - **At least three** screenshots of terminal output done from your own testing. Include them in the same directory as your Python file.
