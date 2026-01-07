@@ -8,7 +8,7 @@ import inquirer3
 UPPER_CASE = 65
 LOWER_CASE = 97
 ALPHABET_SIZE = 26
-# phrase = str(input("[-] Please Input A Phrase: "))
+message = "Welcome To My Progam"
 key = "banana"
 real_key = ""
 
@@ -83,21 +83,44 @@ def get_key_index(phrase,key, real_key):
 
 #     return decoded_phrase
 
+def encode():
+    global message
+    global key
+
+    while True:
+        print(f"Current Message: {message} \nCurrent Key: {key} \n")
+        answer = prompt_menu("Please Select What You Would Like To Do", ["Exit","Edit Message", "Edit Key", "Encode Message"])
+
+        match answer:
+            case "Exit":
+                return
+            case "Edit Message":
+                print(f"[-] Previous Message: {message}")
+                message_input = input("[-] Please Input A Message: ")
+                message = message_input
+                print(message)
+                os.system('cls' if os.name == 'nt' else 'clear') 
+            case "Edit Key":
+                key = input("Please Input A Key For The Encryption: ")
+                encode()
+            case "Encode Message":
+                pass
 
 
 def main():
     print("Welcome To The Enigma Machine! This Is The Main Menu:")
 
-    answer = prompt_menu("Please Select An Option: ", ["Exit","Encode A Message","Decode A Message"])
+    while True:
+        answer = prompt_menu("Please Select An Option", ["Exit","Encode A Message","Decode A Message"])
 
-    match answer:
-        case "Exit":
-            print("Thank You For Visting!")
-            exit()
-        case "Encode A Message":
-            pass
-        case "Decode A Message":
-            pass
+        match answer:
+            case "Exit":
+                print("Thank You For Visting!")
+                exit()
+            case "Encode A Message":
+                encode()
+            case "Decode A Message":
+                pass
         
         
 
