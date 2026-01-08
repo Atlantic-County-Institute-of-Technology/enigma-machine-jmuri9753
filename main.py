@@ -132,7 +132,7 @@ def encode():
     global key, message
 
     while True:
-        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message)", ["Exit","Overwrite Default File","Overwrite A File","Create New File","Read File"])
+        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message)", ["Exit","Overwrite Default File","Overwrite A File","Create New File","Read A File"])
 
         try:
             match answer:
@@ -140,19 +140,45 @@ def encode():
                     return
                 case "Overwrite Default File":
                     with open("message.txt", "w+") as message_file:
-                            message_file.write(message) 
+                        message_file.write(message) 
+                    os.system('cls' if os.name == 'nt' else 'clear')
                 case "Overwrite A File":
                     filename = input("[-] Please Input The Name Of The File You Want To Overwrite (P.S. write '.txt' at the end)")
+                    with open(filename, "r") as message_file:
+                        
+                        text = message_file.read()
+                        print(f"Previous Message: {text}")
+                        time.sleep(1)
                     with open(filename, "w+") as message_file:
-                            message_file.write(message)
+                        message_file.write(message)
+                        print(f"Overwriting...")
+                        time.sleep(1)
+                        print(f"Current Message: {message}")
+                        time.sleep(3)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+
                 case "Create New File":
                     filename = input("[-] Please Input A Name For The New File (P.S. Write '.txt' At The End Of The Name): ")
                     with open(filename, "w") as message_file:
-                            message_file.write(message)
-                case "Read File":
-                    pass
+                        message_file.write(message)
+                    print(f"[!] Creating File With Message... ")
+                    time.sleep(2)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+
+                case "Read A File":
+                    filename = input("[-] Please Input The Name Of The File You Want To Read (P.S. write '.txt' at the end)")
+                    with open(filename, "r") as message_file:
+                        # message_file.seek(0)
+                        text = message_file.read()
+                    print(text)
+                    time.sleep(5)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+
         except FileNotFoundError:
-            pass
+
+            print(FileNotFoundError)
+
+
 
 
 def create_m_file():
