@@ -53,52 +53,53 @@ def get_key_index(phrase,key, real_key):
             else:
                 j+=0
                 real_key += " "
-           
         return "".join(real_key)
 
 
-# key_index = get_key_index(phrase,key, real_key)
+
 # print(key_index)
 
 
-# def vigenere_cipher_encode(phrase, key_index):
-#     encoded_phrase = ''
-#     for letter in range(len(phrase)):
-#         if phrase[letter].isalpha():
-#             phrase_lower = phrase[letter].lower()
-#             charset = (UPPER_CASE if phrase_lower.isupper() else LOWER_CASE)
+def vigenere_cipher_encode(phrase, key_index):
+    encoded_phrase = ''
+    for letter in range(len(phrase)):
+        if phrase[letter].isalpha():
+            phrase_lower = phrase[letter].lower()
+            charset = (UPPER_CASE if phrase_lower.isupper() else LOWER_CASE)
 
 
-#             if phrase[letter] == phrase_lower:
-#                 encoded_phrase += chr((ord(phrase_lower) - charset + (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset)
-#             else:
-#                 encoded_phrase += chr((ord(phrase_lower) - charset + (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset).upper()
-#         else:
-#             encoded_phrase += phrase[letter]
+            if phrase[letter] == phrase_lower:
+                encoded_phrase += chr((ord(phrase_lower) - charset + (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset)
+            else:
+                encoded_phrase += chr((ord(phrase_lower) - charset + (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset).upper()
+        else:
+            encoded_phrase += phrase[letter]
 
 
-#     return encoded_phrase
+    return encoded_phrase
 
 
 
 
-# def vigenere_cipher_decode(encoded_phrase, key_index):
-#     decoded_phrase = ''
-#     for letter in range(len(encoded_phrase)):
-#         if phrase[letter].isalpha():
-#             phrase_lower = encoded_phrase[letter].lower()
-#             charset = (UPPER_CASE if phrase_lower.isupper() else LOWER_CASE)
+def vigenere_cipher_decode(encoded_phrase, key_index):
+    global message
+    
+    decoded_phrase = ''
+    for letter in range(len(encoded_phrase)):
+        if message[letter].isalpha():
+            phrase_lower = encoded_phrase[letter].lower()
+            charset = (UPPER_CASE if phrase_lower.isupper() else LOWER_CASE)
 
 
-#             if encoded_phrase[letter] == phrase_lower:
-#                 decoded_phrase += chr((ord(phrase_lower) - charset - (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset)
-#             else:
-#                 decoded_phrase += chr((ord(phrase_lower) - charset - (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset).upper()
-#         else:
-#             decoded_phrase += encoded_phrase[letter]
+            if encoded_phrase[letter] == phrase_lower:
+                decoded_phrase += chr((ord(phrase_lower) - charset - (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset)
+            else:
+                decoded_phrase += chr((ord(phrase_lower) - charset - (ord(key_index[letter]) - charset)) % ALPHABET_SIZE + charset).upper()
+        else:
+            decoded_phrase += encoded_phrase[letter]
 
 
-#     return decoded_phrase
+    return decoded_phrase
 
 
 def encode_menu():
@@ -132,59 +133,150 @@ def encode():
     global key, message
 
     while True:
-        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message)", ["Exit","Overwrite Default File","Overwrite A File","Create New File","Read A File"])
+        print("In Here You Have To Create A File To Encrypt Your Message Or You Can Use The Default File To Do So... Have Fun!")
+        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message So Your Have To Overwrite It With Your Message)", ["Exit","Overwrite Default File","Overwrite A File","Create New File","Read A File","Encode File Message"])
 
         try:
             match answer:
                 case "Exit":
                     return
                 case "Overwrite Default File":
-                    with open("message.txt", "w+") as message_file:
-                        message_file.write(message) 
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                case "Overwrite A File":
-                    filename = input("[-] Please Input The Name Of The File You Want To Overwrite (P.S. write '.txt' at the end)")
-                    with open(filename, "r") as message_file:
-                        
+                    with open("message.txt", "r") as message_file:
                         text = message_file.read()
                         print(f"Previous Message: {text}")
                         time.sleep(1)
-                    with open(filename, "w+") as message_file:
+                    with open("message.txt", "w+") as message_file:
                         message_file.write(message)
                         print(f"Overwriting...")
                         time.sleep(1)
                         print(f"Current Message: {message}")
                         time.sleep(3)
                     os.system('cls' if os.name == 'nt' else 'clear')
+                case "Overwrite A File":
+                    filename = input("[-] Please Input The Name Of The File You Want To Overwrite: ")
+                    with open(filename + ".txt", "r") as message_file:
+                        
+                        text = message_file.read()
+                        print(f"Previous Message: {text}")
+                        time.sleep(1)
+                    with open(filename + ".txt", "w+") as message_file:
+                        message_file.write(message)
+                        print(f"Overwriting...")
+                        time.sleep(1)
+                        print(f"Current Message: {message}")
+                        time.sleep(1)
+                        print("Returning...")
+                        time.sleep(2)
+                    os.system('cls' if os.name == 'nt' else 'clear')
 
                 case "Create New File":
-                    filename = input("[-] Please Input A Name For The New File (P.S. Write '.txt' At The End Of The Name): ")
-                    with open(filename, "w") as message_file:
+                    filename = input("[-] Please Input A Name For The New File: ")
+                    with open(filename + ".txt", "w") as message_file:
                         message_file.write(message)
-                    print(f"[!] Creating File With Message... ")
-                    time.sleep(2)
+                    print(f"Creating File With Message... ")
+                    time.sleep(1)
+                    print(f"{filename + ".txt"} Has Been Created And Has The Message: {message}")
+                    time.sleep(6)
                     os.system('cls' if os.name == 'nt' else 'clear')
 
                 case "Read A File":
-                    filename = input("[-] Please Input The Name Of The File You Want To Read (P.S. write '.txt' at the end)")
-                    with open(filename, "r") as message_file:
-                        # message_file.seek(0)
+                    filename = input("[-] Please Input The Name Of The File You Want To Read (P.S. The Default file is message.txt, So You Can just input 'message' to read it): ")
+                    with open(filename + ".txt", "r") as message_file:
                         text = message_file.read()
-                    print(text)
+                    print(f"{filename + ".txt"} says... {text}")
                     time.sleep(5)
+                    print("Returning...")
+                    time.sleep(1)
                     os.system('cls' if os.name == 'nt' else 'clear')
+                case "Encode File Message":
+                    filename = input("[-] Please Input The Name Of The File With The Message You Want To Encode: ")
+                    with open(filename + ".txt", "r") as file:
+                        phrase = file.read()
+                    key_index = get_key_index(phrase,key, real_key)
+                    encoded_message = vigenere_cipher_encode(phrase,key_index)
+                    print(f"This Is Your Message Encoded From {filename + ".txt"}: {encoded_message}")
+                    time.sleep(2)
 
-        except FileNotFoundError:
+                    option = prompt_menu("Would You Like To Overwrite The Encoded Message To That File?", ["Yes","No" ])
 
-            print(FileNotFoundError)
+                    match option:
+                        case "Yes":
+                            with open(filename + ".txt", "w+") as message_file:
+                                message_file.write(encoded_message)
+                            print(f"Overwriting...")
+                            time.sleep(1)
+                            print(f"{filename + ".txt"} Now Says: {encoded_message}")
+                            time.sleep(1)
+                            print("Returning...")
+                            time.sleep(4)
+                            os.system('cls' if os.name == 'nt' else 'clear')
+                        case "No":
+                            print("Returning...")
+                            time.sleep(1)
 
+        except Exception as e:
+            print(f"[!] An Error Has Occured: {e}")
+            time.sleep(3)
+            os.system('cls' if os.name == 'nt' else 'clear')
 
+def decode():
+    global key, message
+
+    while True:
+        print("In Here You Have To Create A File To Encrypt Your Message Or You Can Use The Default File To Do So... Have Fun!")
+        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message So You Have To Overwrite It With Your Message)", ["Exit","Read A File","Decode File Message"])
+
+        try:
+            match answer:
+                case "Exit":
+                    return
+
+                case "Read A File":
+                    filename = input("[-] Please Input The Name Of The File You Want To Read (P.S. The Default file is message.txt, So You Can just input 'message' to read it): ")
+                    with open(filename + ".txt", "r") as message_file:
+                        text = message_file.read()
+                    print(f"{filename + ".txt"} says... {text}")
+                    time.sleep(5)
+                    print("Returning...")
+                    time.sleep(1)
+                    os.system('cls' if os.name == 'nt' else 'clear')
+                case "Decode File Message":
+                    filename = input("[-] Please Input The Name Of The File With The Message You Want To Decode: ")
+                    with open(filename + ".txt", "r") as file:
+                        phrase = file.read()
+                        encoded_phrase = file.read()
+                    key_index = get_key_index(phrase,key, real_key)
+                    decoded_message = vigenere_cipher_decode(encoded_phrase, key_index)
+                    print(decoded_message)
+                    time.sleep(5)
+
+                    # option = prompt_menu("Would You Like To Overwrite The Encoded Message To That File?", ["Yes","No" ])
+
+                    # match option:
+                    #     case "Yes":
+                    #         with open(filename + ".txt", "w+") as message_file:
+                    #             message_file.write(decoded_message)
+                    #         print(f"Overwriting...")
+                    #         time.sleep(1)
+                    #         print(f"{filename + ".txt"} Now Says: {decoded_message}")
+                    #         time.sleep(1)
+                    #         print("Returning...")
+                    #         time.sleep(4)
+                    #         os.system('cls' if os.name == 'nt' else 'clear')
+                    #     case "No":
+                    #         print("Returning...")
+                    #         time.sleep(1)
+
+        except Exception as e:
+            print(f"[!] An Error Has Occured: {e}")
+            time.sleep(3)
+            os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def create_m_file():
     global message
 
-    with open("message.txt",'r+') as file:
+    with open("message.txt",'w+') as file:
         file.write(message)
 
 
@@ -201,12 +293,12 @@ def main():
 
         match answer:
             case "Exit":
-                print("Thank You For Visting!")
+                print("Thank You For Visting The Enigma Machine!")
                 exit()
             case "Encode A Message":
                 encode_menu()
             case "Decode A Message":
-                pass
+                decode()
 
 
 
