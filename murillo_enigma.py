@@ -68,8 +68,6 @@ def vigenere_cipher_encode(phrase, key_index):
 
 
 def vigenere_cipher_decode(encoded_phrase, key_index):
-    global message
-
     decoded_phrase = ''
     for letter in range(len(encoded_phrase)):
         if encoded_phrase[letter].isalpha():
@@ -93,22 +91,36 @@ def encode_menu():
     global key
 
     while True:
-        print(f"Current Message: {message} \nCurrent Key: {key} \n")
+        print(f"[-] Current Message: '{message}' \n[-] Current Key: {key} \n")
         answer = prompt_menu("Please Select What You Would Like To Do", ["Return To Main Menu","Edit Message", "Edit Key", "Encode Message"])
 
         match answer:
             case "Return To Main Menu":
                 return
             case "Edit Message":
-                print(f"[?] Previous Message: {message}")
+                print(f"[-] Current Message: '{message}'")
                 message_input = input("[-] Please Input A Message: ")
                 message = message_input
                 print(message)
                 os.system('cls' if os.name == 'nt' else 'clear')
             case "Edit Key":
-                print(f"[?] Current Key: {key}")
-                key = input("[-] Please Input A Key For The Encryption: ")
-                os.system('cls' if os.name == 'nt' else 'clear')
+                print(f"[-] Current Key: {key}")
+
+                while True:
+                    key = input("[-] Please Input A Key For The Encryption: ")
+
+                    if key.isalpha():
+                        os.system('cls' if os.name == 'nt' else 'clear')
+                        encode_menu()
+                        return key
+                    else:
+                        print("[!] Error! Key Can Only Be A String (Letters) Without Spaces! Please Try Again!")
+                        time.sleep(5)
+                        os.system('cls' if os.name == 'nt' else 'clear')
+
+                    
+
+
             case "Encode Message":
                 encode()
 
@@ -118,7 +130,7 @@ def encode():
 
     while True:
         print("In Here You Have To Create A File To Encrypt Your Message Or You Can Use The Default File To Do So... Have Fun!")
-        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message So You Have To Overwrite It With New Message)", ["Return To Previous Menu","Overwrite Default File","Overwrite A File","Create New File","Read A File","Encode File Message"])
+        answer = prompt_menu("Please Select An Option (P.S. The Default File Has The Default Message So You Have To Overwrite It With Yours)", ["Return To Previous Menu","Overwrite Default File","Overwrite A File","Create New File","Read A File","Encode File Message"])
 
         try:
             match answer:
@@ -158,7 +170,9 @@ def encode():
                     print(f"[-] Creating File With Message... ")
                     time.sleep(1)
                     print(f"[-] '{filename + ".txt"}' Has Been Created And Now Has The Message: '{message}'")
-                    time.sleep(6)
+                    time.sleep(5)
+                    print(f"[-] Returning...")
+                    time.sleep(1)
                     os.system('cls' if os.name == 'nt' else 'clear')
                 case "Read A File":
                     filename = input("[-] Please Input The Name Of The File You Want To Read (P.S. The Default file is message.txt, So You Can just input 'message' to read it): ")
